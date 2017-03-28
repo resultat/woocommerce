@@ -359,6 +359,8 @@ class WC_Tests_Product_Data_Store extends WC_Unit_Test_Case {
 		$variation->set_width( 10 );
 		$variation->save();
 
+		var_dump($variation->get_id());
+
 		$store = new WC_Product_Variable_Data_Store_CPT();
 
 		// Force children to be re-read.
