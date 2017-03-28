@@ -19,7 +19,7 @@ interface WC_Product_Variable_Data_Store_Interface {
 	 * @param WC_Product
 	 * @return boolean
 	 */
-	public function child_has_weight( $product );
+	public function child_has_weight( &$product );
 
 	/**
 	 * Does a child have dimensions set?
@@ -27,7 +27,7 @@ interface WC_Product_Variable_Data_Store_Interface {
 	 * @param WC_Product
 	 * @return boolean
 	 */
-	public function child_has_dimensions( $product );
+	public function child_has_dimensions( &$product );
 
 	/**
 	 * Is a child in stock?
@@ -35,7 +35,7 @@ interface WC_Product_Variable_Data_Store_Interface {
 	 * @param WC_Product
 	 * @return boolean
 	 */
-	public function child_is_in_stock( $product );
+	public function child_is_in_stock( &$product );
 
 	/**
 	 * Syncs all variation names if the parent name is changed.
