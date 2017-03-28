@@ -271,7 +271,7 @@ class WC_Product_Variable_Data_Store_CPT extends WC_Product_Data_Store_CPT imple
 	 * @param WC_Product
 	 * @return boolean
 	 */
-	public function child_has_weight( $product ) {
+	public function child_has_weight( &$product ) {
 		global $wpdb;
 		$children = $product->get_visible_children();
 		return $children ? (bool) $wpdb->get_var( "SELECT 1 FROM $wpdb->postmeta WHERE meta_key = '_weight' AND meta_value > 0 AND post_id IN ( " . implode( ',', array_map( 'absint', $children ) ) . " )" ) : false;
@@ -284,7 +284,7 @@ class WC_Product_Variable_Data_Store_CPT extends WC_Product_Data_Store_CPT imple
 	 * @param WC_Product
 	 * @return boolean
 	 */
-	public function child_has_dimensions( $product ) {
+	public function child_has_dimensions( &$product ) {
 		global $wpdb;
 		$children = $product->get_visible_children();
 		var_dump($children);
@@ -298,7 +298,7 @@ class WC_Product_Variable_Data_Store_CPT extends WC_Product_Data_Store_CPT imple
 	 * @param WC_Product
 	 * @return boolean
 	 */
-	public function child_is_in_stock( $product ) {
+	public function child_is_in_stock( &$product ) {
 		global $wpdb;
 		$children            = $product->get_visible_children();
 		$oufofstock_children = $children ? $wpdb->get_var( "SELECT COUNT( post_id ) FROM $wpdb->postmeta WHERE meta_key = '_stock_status' AND meta_value = 'instock' AND post_id IN ( " . implode( ',', array_map( 'absint', $children ) ) . " )" ) : 0;
