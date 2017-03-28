@@ -359,9 +359,11 @@ class WC_Tests_Product_Data_Store extends WC_Unit_Test_Case {
 		$variation->set_width( 10 );
 		$variation->save();
 
-		$product = wc_get_product( $product->get_id() );
-
 		$store = new WC_Product_Variable_Data_Store_CPT();
+
+		// Force children to be re-read.
+		$product->set_children( null );
+		$product->set_visible_children( null );
 
 		$this->assertTrue( $store->child_has_dimensions( $product ) );
 	}
@@ -374,9 +376,11 @@ class WC_Tests_Product_Data_Store extends WC_Unit_Test_Case {
 		$variation->set_parent_id( $product->get_id() );
 		$variation->save();
 
-		$product = wc_get_product( $product->get_id() );
-
 		$store = new WC_Product_Variable_Data_Store_CPT();
+
+		// Force children to be re-read.
+		$product->set_children( null );
+		$product->set_visible_children( null );
 
 		$this->assertFalse( $store->child_has_dimensions( $product ) );
 	}

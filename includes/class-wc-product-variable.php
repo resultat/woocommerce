@@ -180,6 +180,9 @@ class WC_Product_Variable extends WC_Product {
 			wc_deprecated_argument( 'visible_only', '3.0', 'WC_Product_Variable::get_visible_children' );
 			return $visible_only ? $this->get_visible_children() : $this->get_children();
 		}
+		if ( is_null( $this->children ) ) {
+			$this->data_store->set_product_children( $this );
+		}
 		return apply_filters( 'woocommerce_get_children', $this->children, $this, false );
 	}
 
@@ -190,6 +193,9 @@ class WC_Product_Variable extends WC_Product {
 	 * @return array Children ids
 	 */
 	public function get_visible_children() {
+		if ( is_null( $this->visible_children ) ) {
+			$this->data_store->set_product_children( $this );
+		}
 		return apply_filters( 'woocommerce_get_children', $this->visible_children, $this, true );
 	}
 
@@ -314,20 +320,20 @@ class WC_Product_Variable extends WC_Product {
 	 * Sets an array of children for the product.
 	 *
 	 * @since 3.0.0
-	 * @param array
+	 * @param array|null
 	 */
 	public function set_children( $children ) {
-		$this->children = array_filter( wp_parse_id_list( (array) $children ) );
+		$this->children = ! is_null( $children ) ? array_filter( wp_parse_id_list( (array) $children ) ) : null;
 	}
 
 	/**
 	 * Sets an array of visible children only.
 	 *
 	 * @since 3.0.0
-	 * @param array
+	 * @param array|null
 	 */
 	public function set_visible_children( $visible_children ) {
-		$this->visible_children = array_filter( wp_parse_id_list( (array) $visible_children ) );
+		$this->visible_children = ! is_null( $visible_children ) ? array_filter( wp_parse_id_list( (array) $visible_children ) ) : null;
 	}
 
 	/*

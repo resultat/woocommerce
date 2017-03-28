@@ -28,10 +28,20 @@ class WC_Product_Variable_Data_Store_CPT extends WC_Product_Data_Store_CPT imple
 		parent::read_product_data( $product );
 
 		// Set directly since individual data needs changed at the WC_Product_Variation level -- these datasets just pull.
-		$children = $this->read_children( $product );
+		$this->set_product_children( $product );
+		$product->set_variation_attributes( $this->read_variation_attributes( $product ) );
+	}
+
+	/**
+	 * Loads variation child IDs and sets them for the prouduct.
+	 *
+	 * @param  WC_Product
+	 * @param  bool $force_read True to bypass the transient.
+	 */
+	public function set_product_children( &$product, $force_read = false ) {
+		$children = $this->read_children( $product, $force_read );
 		$product->set_children( $children['all'] );
 		$product->set_visible_children( $children['visible'] );
-		$product->set_variation_attributes( $this->read_variation_attributes( $product ) );
 	}
 
 	/**
@@ -341,9 +351,7 @@ class WC_Product_Variable_Data_Store_CPT extends WC_Product_Data_Store_CPT imple
 				}
 			}
 			if ( $changed ) {
-				$children = $this->read_children( $product, true );
-				$product->set_children( $children['all'] );
-				$product->set_visible_children( $children['visible'] );
+				$this->set_product_children( $product, true );
 			}
 		}
 	}
